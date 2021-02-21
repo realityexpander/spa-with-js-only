@@ -27,26 +27,32 @@ const router = async () => {
     { path: "/settings",    view: Settings }
   ]
 
+  // generate regex for each path
   const potentialMatches = routes.map( route=> {
+    console.log(route.path, pathToRegex(route.path) , location.pathname.match(pathToRegex(route.path)))
     return {
       route: route,
       result: location.pathname.match(pathToRegex(route.path))
     }
   })
 
+
+  // Find the path that matches
   let match = potentialMatches.find(potentialMatch => potentialMatch.result !== null)
 
   // 404 route
   if (!match) {
     match = {
       route: routes[0],  // Dashboard.js route is 404
-      isMatch: true
+      result: [location.pathname]
     }
   }
 
   // Load the new view
   console.log("getParams=" + JSON.stringify(getParams(match)) )
   const view = new match.route.view(getParams(match));
+
+  // Apply the view to the DOM
   document.querySelector("#app").innerHTML = await view.getHtml();
 
 }
