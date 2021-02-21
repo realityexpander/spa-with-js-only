@@ -6,12 +6,12 @@ const pathToRegex = path => new RegExp("^" + path.replace(/\//g, "\\/").replace(
 
 const getParams = match => {
 
-  const values = match.result.slice(1);
-  const keys = Array.from(match.route.path.matchAll(/:(\w+)/g)).map(result => result[1]);
+  // return pathsToParams(match.result[0], match.route.path)
 
-  return Object.fromEntries(keys.map((key, i) => {
-    return [key, values[i]];
-  }));
+  const values = match.result.slice(1); // ["/posts/2/4/6","2","4","6"] -> [2,4,6]
+  const keys = Array.from(match.route.path.matchAll(/:(\w+)/g)).map(result => result[1]); // "posts/:id/:a/:b" -> ["id","a","b"]
+
+  return Object.fromEntries( keys.map((key, i) => [key, values[i]] )); // Converts array of k,v pairs to an object
 }
 
 const navigateTo = url => {
@@ -23,7 +23,7 @@ const router = async () => {
   const routes = [
     { path: "/",            view: Dashboard },
     { path: "/posts",       view: Posts },
-    { path: "/posts/:id",   view: Posts },
+    { path: "/posts/:id/:a/:b",   view: Posts },
     { path: "/settings",    view: Settings }
   ]
 
@@ -45,6 +45,7 @@ const router = async () => {
   }
 
   // Load the new view
+  console.log("getParams=" + JSON.stringify(getParams(match)) )
   const view = new match.route.view(getParams(match));
   document.querySelector("#app").innerHTML = await view.getHtml();
 
@@ -66,10 +67,13 @@ function pathToId(path) {
   let id = path.split("/")[2] 
 }
 
-// maps path="/post/2/4/..." , segmentIdArr=[":id","":xxx",...] -> {":id":2, ":xxx":4, ... }
-function postPathToSegments(path, segmentIdArr) {
-  let queries = path.split("/").slice(2)
-  let segments = {}
-  queries.forEach( (e,i) => segments[segmentIdArr[i]] = e )
-  return segments
+// maps query="/posts/2/4/..." , path="/posts/:id/:xxx/..." -> {"id":2, "xxx":4, ... }
+function pathsToParams(query, path) {
+  let values = query.split("/").slice(2)
+  let keys = path.split("/").slice(2).map( e=>e.split(":")[1] )
+  // let params = {}
+  // queries.forEach( (e,i) => params[pathSegments[i]] = e )
+  // return params
+
+  return Object.fromEntries( keys.map( (key,i) => [key, values[i]] ) )
 }
