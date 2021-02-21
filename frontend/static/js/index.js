@@ -19,40 +19,20 @@ const router = async () => {
     { path: "/post/:id",    view: Post },
     { path: "/settings",    view: Settings }
   ]
-
-
-  // // Create the list of potential matching routes
-  console.log("location.pathname=" + location.pathname.split("/")[1])
-  // let potentialMatches = routes.map( route => {
-  //   console.log("route.path=" + route.path.split("/")[1])
-  //   return { 
-  //     route,
-  //     result: location.pathname.split("/")[1] == route.path.split("/")[1]
-  //   }
-  // })
   
-  // // Find the path that matches
-  // let match = potentialMatches.find(potentialMatch => potentialMatch.result != null)
-
+  // Find the route that matches the location path
   let match = routes.find( route => {
-    console.log("route.path='"+route.path.split("/")[1]+"', location.pathname="+location.pathname.split("/")[1])
-    console.log(route.path.split("/")[1] === location.pathname.split("/")[1])
     return route.path.split("/")[1] === location.pathname.split("/")[1]
   })
 
   // 404 route
   if (!match) {
-    match = {
-      route: routes[0],  // Dashboard.js route is 404
-      result: [location.pathname]
-    }
-  } else {
-    console.log("match="+match.path)
-    match.result = [location.pathname]
+    match = routes[0] //  route for 404 is Dashboard.js
   }
+  match.result = [location.pathname]
 
   // Load the new view
-  console.log("getParams=" + JSON.stringify(getParams(match)) )
+  // console.log("getParams=" + JSON.stringify(getParams(match)) )
   const view = new match.view(getParams(match));
 
   // Apply the view to the DOM
