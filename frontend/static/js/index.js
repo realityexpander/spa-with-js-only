@@ -4,7 +4,7 @@ import Post from "./views/Post.js";
 import Settings from "./views/Settings.js";
 
 const getParams = match => {
-  return pathsToParams(match.result[0], match.path)
+  return pathsToParams(match.location, match.path)
 }
 
 const navigateTo = url => {
@@ -16,7 +16,7 @@ const router = async () => {
   const routes = [
     { path: "/",            view: Dashboard },
     { path: "/posts",       view: Posts },
-    { path: "/post/:id",    view: Post },
+    { path: "/post/:id/:abc/:xyz",    view: Post },
     { path: "/settings",    view: Settings }
   ]
   
@@ -27,12 +27,12 @@ const router = async () => {
 
   // 404 route
   if (!match) {
-    match = routes[0] //  route for 404 is Dashboard.js
+    match = routes[0] //  route 404 to Dashboard
   }
-  match.result = [location.pathname]
+  match.location = location.pathname
 
   // Load the new view
-  // console.log("getParams=" + JSON.stringify(getParams(match)) )
+  console.log("getParams=" + JSON.stringify(getParams(match)) )
   const view = new match.view(getParams(match));
 
   // Apply the view to the DOM

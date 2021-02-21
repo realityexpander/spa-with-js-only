@@ -10,7 +10,10 @@ export default class extends AbstractView {
     return `
       <h1>Post View </h1>
       <p>
-        id = ${this.params.id}
+        id = ${this.params.id} ${this.params.abc} ${this.params.xyz}
+      </p>
+      <p>
+        ${JSON.stringify(this.params)}
       </p>
     `
   }
