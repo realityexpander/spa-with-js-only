@@ -2,6 +2,18 @@ import Dashboard from "./views/Dashboard.js";
 import Posts from "./views/Posts.js";
 import Settings from "./views/Settings.js";
 
+const pathToRegex = path => new RegExp("^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$"); // match the first "/", get the id
+
+const getParams = match => {
+
+  const values = match.result.slice(1);
+  const keys = Array.from(match.route.path.matchAll(/:(\w+)/g)).map(result => result[1]);
+
+  return Object.fromEntries(keys.map((key, i) => {
+    return [key, values[i]];
+  }));
+}
+
 const navigateTo = url => {
   history.pushState(null, null, url)
   router()
@@ -9,30 +21,31 @@ const navigateTo = url => {
 
 const router = async () => {
   const routes = [
-    { path: "/", view: Dashboard },
-    { path: "/posts", view: Posts },
-    { path: "/settings", view: Settings }
+    { path: "/",            view: Dashboard },
+    { path: "/posts",       view: Posts },
+    { path: "/posts/:id",   view: Posts },
+    { path: "/settings",    view: Settings }
   ]
 
   const potentialMatches = routes.map( route=> {
     return {
       route: route,
-      isMatch: location.pathname === route.path
+      result: location.pathname.match(pathToRegex(route.path))
     }
   })
 
-  let match = potentialMatches.find(potentialMatch => potentialMatch.isMatch)
+  let match = potentialMatches.find(potentialMatch => potentialMatch.result !== null)
 
   // 404 route
   if (!match) {
     match = {
-      route: routes[0],
+      route: routes[0],  // Dashboard.js route is 404
       isMatch: true
     }
   }
 
   // Load the new view
-  const view = new match.route.view();
+  const view = new match.route.view(getParams(match));
   document.querySelector("#app").innerHTML = await view.getHtml();
 
 }
@@ -48,3 +61,15 @@ document.addEventListener("DOMContentLoaded", () => {
   })
   router();
 })
+
+function pathToId(path) {
+  let id = path.split("/")[2] 
+}
+
+// maps path="/post/2/4/..." , segmentIdArr=[":id","":xxx",...] -> {":id":2, ":xxx":4, ... }
+function postPathToSegments(path, segmentIdArr) {
+  let queries = path.split("/").slice(2)
+  let segments = {}
+  queries.forEach( (e,i) => segments[segmentIdArr[i]] = e )
+  return segments
+}
