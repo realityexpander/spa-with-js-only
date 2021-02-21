@@ -3,7 +3,7 @@ import Posts from "./views/Posts.js";
 import Post from "./views/Post.js";
 import Settings from "./views/Settings.js";
 
-const pathToRegex = path => new RegExp("^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$"); // match the first "/", get the id
+// const pathToRegex = path => new RegExp("^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$"); // match the first "/", get the id
 
 const getParams = match => {
   return pathsToParams(match.result[0], match.path)
