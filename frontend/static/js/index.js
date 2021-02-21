@@ -52,10 +52,6 @@ document.addEventListener("DOMContentLoaded", () => {
   router();
 })
 
-function pathToId(path) {
-  let id = path.split("/")[2] 
-}
-
 // Converts query="/posts/2/4/..." , path="/posts/:id/:xxx/..." -> {"id":2, "xxx":4, ... }
 function pathsToParams(query, path) {
   let keys = path.split("/").slice(2).map( e => e.split(":")[1] )
