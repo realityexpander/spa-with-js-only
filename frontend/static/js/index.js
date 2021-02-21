@@ -3,14 +3,8 @@ import Posts from "./views/Posts.js";
 import Post from "./views/Post.js";
 import Settings from "./views/Settings.js";
 
-// const pathToRegex = path => new RegExp("^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$"); // match the first "/", get the id
-
 const getParams = match => {
   return pathsToParams(match.result[0], match.path)
-
-  // const values = match.result.slice(1); // ["/posts/2/4/6","2","4","6"] -> [2,4,6]
-  // const keys = Array.from(match.route.path.matchAll(/:(\w+)/g)).map(result => result[1]); // "posts/:id/:a/:b" -> ["id","a","b"]
-  // return Object.fromEntries( keys.map((key, i) => [key, values[i]] )); // Converts array of k,v pairs to an object
 }
 
 const navigateTo = url => {
@@ -25,16 +19,6 @@ const router = async () => {
     { path: "/post/:id",    view: Post },
     { path: "/settings",    view: Settings }
   ]
-
-  // // generate regex for each path
-  // console.log(location.pathname)
-  // const potentialMatches = routes.map( route=> {
-  //   console.log(route.path, pathToRegex(route.path) , location.pathname.match(pathToRegex(route.path)))
-  //   return {
-  //     route: route,
-  //     result: location.pathname.match(pathToRegex(route.path))
-  //   }
-  // })
 
 
   // // Create the list of potential matching routes
