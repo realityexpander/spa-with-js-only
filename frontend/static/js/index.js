@@ -32,7 +32,7 @@ const router = async () => {
   match.location = location.pathname
 
   // Load the new view
-  console.log("getParams=" + JSON.stringify(getParams(match)) )
+  // console.log("getParams=" + JSON.stringify(getParams(match)) )
   const view = new match.view(getParams(match));
 
   // Apply the view to the DOM
