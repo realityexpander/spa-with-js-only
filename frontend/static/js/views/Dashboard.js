@@ -2,12 +2,13 @@ import AbstractView from "./AbstractView.js";
 
 export default class extends AbstractView {
   constructor() {
+    super();
     this.setTitle("Dashboard");
   }
 
   async getHtml() {
     return `
-      <h1>Welcome back, Dom</h1>
+      <h1>Welcome back, Chris</h1>
       <p>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem, cumque voluptate eligendi sunt officiis sequi debitis? Ipsa veniam totam minus dignissimos accusamus, quod provident autem cumque aspernatur, cum maxime corrupti!
       </p>

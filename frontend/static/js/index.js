@@ -1,3 +1,6 @@
+import Dashboard from "./views/Dashboard.js";
+import Posts from "./views/Posts.js";
+
 const navigateTo = url => {
   history.pushState(null, null, url)
   router()
@@ -5,9 +8,9 @@ const navigateTo = url => {
 
 const router = async () => {
   const routes = [
-    { path: "/", view: () => console.log("Viewing Dashboard")},
-    { path: "/posts", view: () => console.log("Viewing posts")},
-    { path: "/settings", view: () => console.log("Viewing settings")}
+    { path: "/", view: Dashboard },
+    { path: "/posts", view: Posts },
+    // { path: "/settings", view: () => console.log("Viewing settings")}
   ]
 
   const potentialMatches = routes.map( route=> {
@@ -27,13 +30,16 @@ const router = async () => {
     }
   }
 
-  console.log(match?.route?.view())
+  // Load the new view
+  const view = new match.route.view();
+  document.querySelector("#app").innerHTML = await view.getHtml();
+
 }
 
-window.addEventListener("popstate", router )
+window.addEventListener("popstate", router);
 
 document.addEventListener("DOMContentLoaded", () => {
-  document.addEventListener("click", e => {
+  document.body.addEventListener("click", e => {
     if (e.target.matches("[data-link]")) {
       e.preventDefault()
       navigateTo(e.target.href)
