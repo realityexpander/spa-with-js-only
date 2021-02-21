@@ -1,6 +1,6 @@
 import Dashboard from "./views/Dashboard.js";
 import Posts from "./views/Posts.js";
-import PostView from "./views/PostView.js";
+import Post from "./views/Post.js";
 import Settings from "./views/Settings.js";
 
 const pathToRegex = path => new RegExp("^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$"); // match the first "/", get the id
@@ -23,7 +23,7 @@ const router = async () => {
   const routes = [
     { path: "/",            view: Dashboard },
     { path: "/posts",       view: Posts },
-    { path: "/post/:id",    view: PostView },
+    { path: "/post/:id",    view: Post },
     { path: "/settings",    view: Settings }
   ]
 

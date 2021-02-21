@@ -11,12 +11,15 @@ export default class extends AbstractView {
       <h1>Posts</h1>
       <p>
         Lorem ipsum dolor sit amet consectetur adipisicing elit.
+        <a href="/post/1" data-link>View Post 1</a>
       </p>
       <p>
         Dolorem, cumque voluptate eligendi sunt officiis sequi debitis?
+        <a href="/post/2" data-link>View Post 2</a>
       </p>
       <p>
         Ipsa veniam totam minus dignissimos accusamus, quod provident autem cumque aspernatur, cum maxime corrupti!
+        <a href="/post/3" data-link>View Post 3</a>
       </p>
     `
   }
