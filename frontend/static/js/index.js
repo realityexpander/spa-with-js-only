@@ -3,6 +3,9 @@ import Posts from "./views/Posts.js";
 import Post from "./views/Post.js";
 import Settings from "./views/Settings.js";
 
+// from YT: Build a Single Page Application with JavaScript (No Frameworks)
+// https://www.youtube.com/watch?v=6BozpmSjk-Y
+
 const getParams = match => {
   return pathsToParams(match.location, match.path)
 }
